@@ -1,6 +1,4 @@
 #include "../headers/Chat.h"
-//#include "../headers/sha1.h"
-//#include "../headers/ConnectionTCP.h"
 #include <iostream>
 #include <limits>
 
@@ -27,32 +25,7 @@ void Chat::notify(IObserver* user, char event) {
         if(messages_ == nullptr) {
             messages_ = new Messages<std::string>;
         }
-        /*
-                if(event == 's') {
-                    std::cout << "\nEnter your message: ";
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-                    std::string message;
-                    std::getline(std::cin, message);
-                    std::string log_sender = user->get_login();
-
-                    // передаем сообщение пользователям текущего чата
-                    for(IObserver* receiver : list_observers_) {
-                        if(user != receiver) {
-                            // receiver->update(user, message);
-                            // messages_->set_message(user, message);
-                            nlohmann::json created_message =
-                                messages_->create_message(log_sender, receiver->get_login(),
-           message); messages_->save_message(created_message);
-                        }
-                        nlohmann::json created_message =
-                            messages_->create_message(log_sender, "all", message);
-                        if(!created_message.is_null()) {
-                            // отсылаем сообщение серверу
-                            messages_->send_message(created_message);
-                        }
-                    }
-                } else if(event == 'c') {*/
         if(event == 's') {
             std::cout << "\nSend to a user. Enter login : ";
             std::string login;
@@ -65,21 +38,13 @@ void Chat::notify(IObserver* user, char event) {
             std::getline(std::cin, message);
             std::string log_sender = user->get_login();
 
-            // receiver->update(user, message);
-            // messages_->set_message(user, message);
             nlohmann::json created_message = messages_->create_message(log_sender, login, message);
             if(!created_message.is_null()) {
                 messages_->save_message(created_message);
                 // отсылаем сообщение серверу
                 messages_->send_message(created_message);
             }
-            // std::cout << "Your message is sending!\n";
-            //}
-
-        } /*else if(event == 'r') { // для сервера
-           messages_->get_messages();
-       }
-       */
+        }
     }
 }
 
@@ -91,18 +56,20 @@ void Chat::receive_message() {
 }
 
 void Chat::display_Messages_fromJSON(IObserver* user) {
-    if(is_checkingFile(messages_->get_pathJSON())) {
-        nlohmann::json json_data = readFile(messages_->get_pathJSON());
-        if(!json_data.empty()) {
-            std::string log_receiver = user->get_login();
-            for(size_t i = 0; i < json_data.size(); i++) {
-                if(json_data[i]["receiver"] == log_receiver) {
-                    std::cout << "The sender: " << json_data[i]["sender"] << "\n";
-                    std::cout << "The message: " << json_data[i]["message"] << "\n\n";
+    if(messages_ != nullptr) {
+        if(is_checkingFile(messages_->get_pathJSON())) {
+            nlohmann::json json_data = readFile(messages_->get_pathJSON());
+            if(!json_data.empty()) {
+                std::string log_receiver = user->get_login();
+                for(size_t i = 0; i < json_data.size(); i++) {
+                    if(json_data[i]["receiver"] == log_receiver) {
+                        std::cout << "The sender: " << json_data[i]["sender"] << "\n";
+                        std::cout << "The message: " << json_data[i]["message"] << "\n\n";
+                    }
                 }
+            } else {
+                std::cout << "No messages!\n";
             }
-        } else {
-            std::cout << "No messages!\n";
         }
     }
 }

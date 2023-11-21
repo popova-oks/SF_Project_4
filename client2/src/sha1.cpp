@@ -113,17 +113,6 @@ std::string sha1(const std::string &password) {
         E = E + e;
     }
 
-/*
-    //Выделяем память для результата
-    uint* digest = new uint[5];
-
-
-    digest[0] = A;
-    digest[1] = B;
-    digest[2] = C;
-    digest[3] = D;
-    digest[4] = E;
-    */
    // Вычисление хэша
     uint digest[5] = {A, B, C, D, E};
 
@@ -132,8 +121,6 @@ std::string sha1(const std::string &password) {
     result << std::hex << std::setfill('0');
     for (uint i : digest) {
         result << std::setw(8) << i;
-    }
-
-    
+    }    
     return result.str();;
 }

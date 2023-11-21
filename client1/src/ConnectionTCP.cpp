@@ -22,8 +22,6 @@ namespace TCP_Client {
         }
 
         // Установим адрес сервера
-        // serveraddress.sin_addr.s_addr = inet_addr("127.0.0.1");
-        //более безопасная функция, чем inet_addr()
         if(inet_pton(AF_INET, server_addr, &serveraddress.sin_addr.s_addr) <= 0) {
             std::cout << "Invalid address/ Address not supported" << std::endl;
             exit(1);
@@ -92,17 +90,6 @@ namespace TCP_Server {
             std::cout << "Server is listening for new connection: " << std::endl;
         }
         length = sizeof(client);
-
-/*
-        // accept() - это функция соксета, которая ожидает и принимает входящее соединение от
-        // клиента. Функция блокируется (ожидает), пока клиент не попытается подключиться, и когда
-        // клиентское подключение обнаружено, она создает новый соксет для общения с этим клиентом.
-        connection = accept(socket_file_descriptor, (struct sockaddr*)&client, &length);
-        if(connection == -1) {
-            std::cout << "Server is unable to accept the data from client.!" << std::endl;
-            exit(1);
-        }
-        */
         return socket_file_descriptor;
     };
 

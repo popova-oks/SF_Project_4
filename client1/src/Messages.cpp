@@ -97,21 +97,11 @@ template <typename T> void Messages<T>::get_messages() {
 
     while(true) {
         char event;
-        std::cout << "\nIf you want to stop typing: s - stop, else: any character: ";
+        std::cout << "\nIf you want to stop typing: q - quit, else: any character: ";
         std::cin >> event;
-        if(event == 's') {
-            // const char* stop_message =
-            //"Server is Exiting. You need to unconnect! Send the message, you are ready!";
-            // ssize_t bytes = send(TCP_Server::connection, stop_message, strlen(stop_message), 0);
-            //  если передали >= 0  байт, значит пересылка прошла успешно
-            // if(bytes >= 0) {
+        if(event == 'q') {
             std::cout << "\nStop sending data to the client!" << std::endl;
-            // ждем ответ клиента, что он отсоеденился
-            // recv(TCP_Server::connection, TCP_Server::buff, sizeof(TCP_Server::buff), 0);
-            // очищает (устанавливает в нули) буфер message размером MESSAGE_LENGTH
-            // bzero(TCP_Server::buff, MESSAGE_LENGTH);
             break;
-            //}
         }
 
         // accept() - это функция соксета, которая ожидает и принимает входящее соединение от
@@ -121,7 +111,6 @@ template <typename T> void Messages<T>::get_messages() {
                                         (struct sockaddr*)&TCP_Server::client, &TCP_Server::length);
         if(TCP_Server::connection == -1) {
             std::cout << "Server is unable to accept the data from client.!" << std::endl;
-            // exit(1);
         } else {
             // очищаем буфер сервера
             bzero(TCP_Server::buff, MESSAGE_LENGTH);

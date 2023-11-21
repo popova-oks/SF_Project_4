@@ -35,10 +35,13 @@ void ClientCode::start() {
         switch(ch) {
         case '1': {
             user = make_user(chat);
+            if(user != nullptr) {
+                user->display_Messages();
+            }
             break;
         }
         case '2': {
-            chat->display_listObservers(); 
+            chat->display_listObservers();
             if(chat->is_Users()) {
                 user = login_user(chat);
                 if(user != nullptr) {
@@ -55,8 +58,7 @@ void ClientCode::start() {
                 std::cout << "\nYou need to log in!";
             } else {
                 if(chat->is_Observes()) {
-                    //user->create_message();
-                    user->exchange_messages ();
+                    user->exchange_messages();
                 } else {
                     std::cout << "\nNo authorized users!\n";
                 }
@@ -64,6 +66,7 @@ void ClientCode::start() {
             break;
         }
         case '4': {
+            chat->display_listObservers();
             chat->receive_message();
             break;
         }
@@ -150,7 +153,6 @@ User* ClientCode::make_user(Chat* chat) {
         std::cerr << "Some other exception\n";
     }
 }
-
 
 User* ClientCode::login_user(Chat* chat) {
     std::cin.clear();
