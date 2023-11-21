@@ -1,0 +1,17 @@
+[
+    {
+        "message": "qwerty",
+        "receiver": "a",
+        "sender": "o"
+    },
+    {
+        "message": "asdfg",
+        "receiver": "m",
+        "sender": "o"
+    },
+    {
+        "message": "astyu",
+        "receiver": "o",
+        "sender": "m"
+    }
+]
